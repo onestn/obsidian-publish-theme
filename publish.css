@@ -28,11 +28,17 @@
   --code-background: #f6f8fa;
   --code-border: #eaeaea;
   --code-normal: #171717;
-  --code-comment: #6e7781;
-  --code-keyword: #cf222e;
-  --code-function: #8250df;
-  --code-string: #0a3069;
-  --code-number: #0550ae;
+  --token-comment: #6e7781;
+  --token-keyword: #cf222e;
+  --token-function: #8250df;
+  --token-class: #953800;
+  --token-string: #0a3069;
+  --token-number: #0550ae;
+  --token-operator: #cf222e;
+  --token-punctuation: #6e7781;
+  --token-property: #0550ae;
+  --token-decorator: #953800;
+  --token-parameter: #953800;
   --nav-item-color: #666666;
   --nav-item-color-active: #171717;
   --nav-item-background-active: #f0f0f0;
@@ -44,37 +50,43 @@
 
 /* ── CSS Variables: Dark ───────────────────────────────────── */
 .theme-dark {
-  --background-primary: #0a0a0a;
-  --background-primary-alt: #111111;
-  --background-secondary: #171717;
-  --background-secondary-alt: #1a1a1a;
+  --background-primary: #2a2a2a;
+  --background-primary-alt: #303030;
+  --background-secondary: #353535;
+  --background-secondary-alt: #3a3a3a;
   --text-normal: #ededed;
   --text-muted: #a1a1a1;
-  --text-faint: #666666;
+  --text-faint: #777777;
   --text-accent: #0070f3;
   --text-accent-hover: #3291ff;
-  --interactive-normal: #1a1a1a;
-  --interactive-hover: #252525;
+  --interactive-normal: #3a3a3a;
+  --interactive-hover: #444444;
   --interactive-accent: #0070f3;
   --interactive-accent-hover: #3291ff;
-  --background-modifier-border: #333333;
-  --background-modifier-border-hover: #444444;
+  --background-modifier-border: #4a4a4a;
+  --background-modifier-border-hover: #5a5a5a;
   --background-modifier-border-focus: #0070f3;
-  --code-background: #161616;
-  --code-border: #2a2a2a;
+  --code-background: #323232;
+  --code-border: #4a4a4a;
   --code-normal: #e6edf3;
-  --code-comment: #8b949e;
-  --code-keyword: #ff7b72;
-  --code-function: #d2a8ff;
-  --code-string: #a5d6ff;
-  --code-number: #79c0ff;
-  --nav-item-color: #888888;
+  --token-comment: #6a737d;
+  --token-keyword: #ff7b72;
+  --token-function: #d2a8ff;
+  --token-class: #f0c674;
+  --token-string: #a5d6ff;
+  --token-number: #79c0ff;
+  --token-operator: #ff7b72;
+  --token-punctuation: #8b949e;
+  --token-property: #79c0ff;
+  --token-decorator: #ffa657;
+  --token-parameter: #ffa657;
+  --nav-item-color: #999999;
   --nav-item-color-active: #ededed;
-  --nav-item-background-active: #1a1a1a;
-  --tag-background: #1a1a1a;
+  --nav-item-background-active: #3a3a3a;
+  --tag-background: #3a3a3a;
   --tag-color: #a1a1a1;
-  --callout-bg: #161616;
-  --callout-border: #333333;
+  --callout-bg: #323232;
+  --callout-border: #4a4a4a;
 }
 
 /* ── Global Typography ─────────────────────────────────────── */
@@ -164,43 +176,198 @@ body {
   word-break: break-word;
 }
 
-/* ── Code Block ────────────────────────────────────────────── */
-.markdown-rendered pre {
+/* ============================================================
+   CODE BLOCK — Vercel Blog Style
+   ============================================================ */
+
+/* Base pre */
+.markdown-rendered pre:not(.frontmatter):not(.language-mermaid) {
   font-family: 'JetBrains Mono', 'Geist Mono', monospace;
   font-size: 13.5px;
   line-height: 1.7;
   background: var(--code-background);
   border: 1px solid var(--code-border);
   border-radius: 8px;
-  padding: 1em 1.25em;
+  padding: 0;
   margin: 1.5em 0;
-  overflow-x: auto;
+  overflow: hidden;
   tab-size: 2;
   -moz-tab-size: 2;
+  position: relative;
 }
 
-.markdown-rendered pre code {
+/* Wrapper: header + pre */
+.code-block-wrapper {
+  border: 1px solid var(--code-border);
+  border-radius: 8px;
+  margin: 1.5em 0;
+  overflow: hidden;
+}
+
+.code-block-wrapper pre {
+  margin: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+}
+
+/* Language header */
+.code-lang-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 6px 2px 14px;
+  font-family: 'Geist', 'Pretendard Variable', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--code-background);
+  border-bottom: 1px solid var(--code-border);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+/* Code content area */
+.markdown-rendered pre:not(.frontmatter):not(.language-mermaid) code {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
   background: none;
   border: none;
-  padding: 0;
+  padding: 1em 1.25em;
   border-radius: 0;
   color: var(--code-normal);
+  display: block;
+  white-space: pre !important;
 }
 
-/* Syntax highlighting */
-.theme-dark .token.comment, .theme-dark .token.prolog { color: var(--code-comment); font-style: italic; }
-.theme-dark .token.keyword, .theme-dark .token.tag { color: var(--code-keyword); }
-.theme-dark .token.function { color: var(--code-function); }
-.theme-dark .token.string, .theme-dark .token.attr-value { color: var(--code-string); }
-.theme-dark .token.number, .theme-dark .token.boolean { color: var(--code-number); }
-.theme-light .token.comment, .theme-light .token.prolog { color: var(--code-comment); font-style: italic; }
-.theme-light .token.keyword, .theme-light .token.tag { color: var(--code-keyword); }
-.theme-light .token.function { color: var(--code-function); }
-.theme-light .token.string, .theme-light .token.attr-value { color: var(--code-string); }
-.theme-light .token.number, .theme-light .token.boolean { color: var(--code-number); }
+/* Line numbers + content layout */
+.code-content-wrapper {
+  display: flex;
+  overflow: visible;
+  position: relative;
+}
+
+.line-numbers-gutter {
+  display: flex;
+  flex-direction: column;
+  padding: 1em 0 1em 1em;
+  text-align: right;
+  color: var(--text-faint);
+  font-family: 'JetBrains Mono', 'Geist Mono', monospace;
+  font-size: 13.5px;
+  line-height: 1.7;
+  user-select: none;
+  -webkit-user-select: none;
+  flex-shrink: 0;
+  min-width: 2.5em;
+}
+
+.code-content {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.code-content code {
+  padding: 1em 1.25em 1em 1em;
+}
+
+/* Line highlight overlays */
+.code-line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.code-line-highlight.hl-blue  { background: rgba(0, 112, 243, 0.1); }
+.code-line-highlight.hl-red   { background: rgba(235, 55, 65, 0.1); }
+.code-line-highlight.hl-green { background: rgba(46, 160, 67, 0.1); }
+
+.theme-dark .code-line-highlight.hl-blue  { background: rgba(0, 112, 243, 0.15); }
+.theme-dark .code-line-highlight.hl-red   { background: rgba(235, 55, 65, 0.15); }
+.theme-dark .code-line-highlight.hl-green { background: rgba(46, 160, 67, 0.15); }
+
+.line-numbers-gutter .highlighted { color: var(--text-accent); }
+.line-numbers-gutter .hl-red     { color: #eb3741; }
+.line-numbers-gutter .hl-green   { color: #2ea043; }
+
+/* Copy button */
+.code-lang-header .copy-code-button {
+  position: static;
+  background: transparent;
+  border: 1px solid var(--code-border);
+  border-radius: 6px;
+  color: var(--text-faint);
+  padding: 4px 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, color 0.15s ease, background 0.15s ease;
+  font-size: 12px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.code-block-wrapper:hover .copy-code-button { opacity: 1; }
+
+.code-lang-header .copy-code-button:hover {
+  color: var(--text-normal);
+  background: var(--interactive-hover);
+  border-color: var(--background-modifier-border-hover);
+}
+
+/* ── Syntax Highlighting (variable-based) ─────────────────── */
+.token.comment, .token.prolog, .token.doctype { color: var(--token-comment); font-style: italic; }
+.token.keyword, .token.tag, .token.builtin { color: var(--token-keyword); }
+.token.function, .token.method { color: var(--token-function); }
+.token.class-name { color: var(--token-class); }
+.token.string, .token.attr-value, .token.template-string, .token.triple-quoted-string { color: var(--token-string); }
+.token.number, .token.boolean { color: var(--token-number); }
+.token.operator { color: var(--token-operator); }
+.token.punctuation { color: var(--token-punctuation); }
+.token.property, .token.constant { color: var(--token-property); }
+.token.decorator, .token.annotation { color: var(--token-decorator); }
+.token.parameter { color: var(--token-parameter); }
+
+/* ── Code Theme Presets ───────────────────────────────────── */
+/* Usage: document.body.classList.add('code-theme-catppuccin'); */
+
+.theme-dark.code-theme-catppuccin {
+  --code-background: #1e1e2e; --code-border: #313244; --code-normal: #cdd6f4;
+  --token-comment: #6c7086; --token-keyword: #cba6f7; --token-function: #89b4fa;
+  --token-class: #f9e2af; --token-string: #a6e3a1; --token-number: #fab387;
+  --token-operator: #89dceb; --token-punctuation: #9399b2; --token-property: #f5c2e7;
+  --token-decorator: #f38ba8; --token-parameter: #eba0ac;
+}
+
+.theme-light.code-theme-catppuccin {
+  --code-background: #eff1f5; --code-border: #ccd0da; --code-normal: #4c4f69;
+  --token-comment: #9ca0b0; --token-keyword: #8839ef; --token-function: #1e66f5;
+  --token-class: #df8e1d; --token-string: #40a02b; --token-number: #fe640b;
+  --token-operator: #04a5e5; --token-punctuation: #7c7f93; --token-property: #ea76cb;
+  --token-decorator: #d20f39; --token-parameter: #e64553;
+}
+
+.theme-dark.code-theme-github {
+  --code-background: #0d1117; --code-border: #30363d; --code-normal: #e6edf3;
+  --token-comment: #8b949e; --token-keyword: #ff7b72; --token-function: #d2a8ff;
+  --token-class: #f0c674; --token-string: #a5d6ff; --token-number: #79c0ff;
+  --token-operator: #ff7b72; --token-punctuation: #8b949e; --token-property: #79c0ff;
+  --token-decorator: #ffa657; --token-parameter: #ffa657;
+}
+
+.theme-dark.code-theme-onedark {
+  --code-background: #282c34; --code-border: #3e4452; --code-normal: #abb2bf;
+  --token-comment: #5c6370; --token-keyword: #c678dd; --token-function: #61afef;
+  --token-class: #e5c07b; --token-string: #98c379; --token-number: #d19a66;
+  --token-operator: #56b6c2; --token-punctuation: #abb2bf; --token-property: #e06c75;
+  --token-decorator: #d19a66; --token-parameter: #e06c75;
+}
+
+/* ============================================================
+   CONTENT ELEMENTS
+   ============================================================ */
 
 /* ── Blockquote ────────────────────────────────────────────── */
 .markdown-rendered blockquote {
@@ -218,7 +385,6 @@ body {
   border-radius: 8px;
   padding: 0.75em 1em;
   margin: 1.5em 0;
-  border-left: none;
 }
 
 .markdown-rendered .callout-title {
@@ -260,90 +426,57 @@ body {
 .tree-item-inner.is-active { color: var(--nav-item-color-active); background: var(--nav-item-background-active); font-weight: 600; }
 .site-body-left-column { border-right: 1px solid var(--background-modifier-border); }
 
-/* ── Home Button ────────────────────────────────────────────── */
+/* ── Home Button ───────────────────────────────────────────── */
 .home-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
   border: 1px solid var(--background-modifier-border);
   border-radius: 8px;
   background: var(--background-primary);
   color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.15s ease;
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  z-index: 100;
+  cursor: pointer; transition: all 0.15s ease;
+  position: fixed; top: 16px; left: 16px; z-index: 100;
   text-decoration: none;
 }
 
-.home-btn:hover {
-  color: var(--text-accent);
-  background: var(--interactive-hover);
-  border-color: var(--background-modifier-border-hover);
-}
-
+.home-btn:hover { color: var(--text-accent); background: var(--interactive-hover); border-color: var(--background-modifier-border-hover); }
 .home-btn svg { width: 22px; height: 22px; }
 
 /* ── Sidebar Toggle Button ─────────────────────────────────── */
 .sidebar-toggle-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
   border: 1px solid var(--background-modifier-border);
   border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  position: fixed;
-  top: 68px;
-  left: 16px;
-  z-index: 100;
+  cursor: pointer; transition: all 0.15s ease;
+  position: fixed; top: 68px; left: 16px; z-index: 100;
 }
 
 .sidebar-toggle-btn svg { width: 24px; height: 24px; transform: scaleX(-1); }
-
-.sidebar-toggle-btn:hover {
-  color: var(--text-normal);
-  background: var(--interactive-hover);
-  border-color: var(--background-modifier-border-hover);
-}
-
-/* ── Sidebar Collapse ──────────────────────────────────────── */
+.sidebar-toggle-btn:hover { color: var(--text-normal); background: var(--interactive-hover); border-color: var(--background-modifier-border-hover); }
 .sidebar-collapsed .sidebar-toggle-btn svg { transform: scaleX(1); }
 
-/* ── Scrollbar (hidden) ────────────────────────────────────── */
+/* ============================================================
+   GLOBAL & UTILITIES
+   ============================================================ */
+
 ::-webkit-scrollbar { width: 0; height: 0; }
 * { scrollbar-width: none; }
 
-/* ── Graph View ────────────────────────────────────────────── */
 .graph-view.color-fill { color: var(--text-accent); }
 .graph-view.color-circle { color: var(--text-muted); }
 .graph-view.color-line { color: var(--background-modifier-border); }
 
-/* ── Mermaid Horizontal Scroll ─────────────────────────────── */
+/* ── Mermaid ───────────────────────────────────────────────── */
 .markdown-rendered .mermaid {
-  overflow-x: auto;
-  max-width: 100%;
+  overflow-x: auto; max-width: 100%; width: 100%;
   scrollbar-width: thin;
-  transform: scale(0.8);
-  transform-origin: top left;
+  display: flex; justify-content: center;
 }
 
-.markdown-rendered .mermaid::-webkit-scrollbar {
-  height: 6px;
-}
+.markdown-rendered .mermaid::-webkit-scrollbar { height: 6px; }
+.markdown-rendered .mermaid::-webkit-scrollbar-thumb { background: var(--background-modifier-border); border-radius: 3px; }
 
-.markdown-rendered .mermaid::-webkit-scrollbar-thumb {
-  background: var(--background-modifier-border);
-  border-radius: 3px;
-}
-
-/* ── Selection ─────────────────────────────────────────────── */
 ::selection { background: rgba(0, 112, 243, 0.2); }
 
 /* ── Responsive ────────────────────────────────────────────── */

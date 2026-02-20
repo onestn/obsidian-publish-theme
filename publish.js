@@ -7,6 +7,14 @@
 
   // Center content visually relative to viewport
   function balanceLayout() {
+    // Apply page header styles
+    var pageHeader = document.querySelector('.page-header');
+    if (pageHeader) {
+      pageHeader.style.fontSize = '2.2em';
+      pageHeader.style.wordBreak = 'keep-all';
+      pageHeader.style.overflowWrap = 'break-word';
+    }
+
     var left = document.querySelector('.site-body-left-column');
     var md = document.querySelector('.markdown-rendered');
     if (!left || !md) return;
